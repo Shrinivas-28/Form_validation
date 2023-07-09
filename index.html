@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Validation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Information Collection Form</h1>
+  
+  <form id="myForm">
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+      <span id="nameError" class="error"></span>
+    </div>
+    
+    <div>
+      <label for="address">Address:</label>
+      <textarea id="address" name="address" required></textarea>
+      <span id="addressError" class="error"></span>
+    </div>
+    
+    <div>
+      <label for="mobile">Mobile Number:</label>
+      <input type="tel" id="mobile" name="mobile" required pattern="[0-9]{10}">
+      <span id="mobileError" class="error"></span>
+    </div>
+    
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <span id="emailError" class="error"></span>
+    </div>
+    
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+
+  <script>
+    // Function to validate the form fields
+    function validateForm(event) {
+      event.preventDefault(); // Prevent form submission
+      
+      // Clear previous error messages
+      clearErrors();
+      
+      // Fetch form input values
+      var nameInput = document.getElementById("name");
+      var addressInput = document.getElementById("address");
+      var mobileInput = document.getElementById("mobile");
+      var emailInput = document.getElementById("email");
+      
+      // Validate name
+      if (nameInput.value.trim() === "") {
+        document.getElementById("nameError").textContent = "Name is required";
+        nameInput.focus();
+        return false;
+      }
+      
+      // Validate address
+      if (addressInput.value.trim() === "") {
+        document.getElementById("addressError").textContent = "Address is required";
+        addressInput.focus();
+        return false;
+      }
+      
+      // Validate mobile number
+      var mobilePattern = /^[0-9]{10}$/;
+      if (!mobilePattern.test(mobileInput.value)) {
+        document.getElementById("mobileError").textContent = "Invalid mobile number";
+        mobileInput.focus();
+        return false;
+      }
+      
+      // Validate email
+      var emailPattern = /^\S+@\S+\.\S+$/;
+      if (!emailPattern.test(emailInput.value)) {
+        document.getElementById("emailError").textContent = "Invalid email address";
+        emailInput.focus();
+        return false;
+      }
+      
+      // If all validations pass, display success message
+      alert("Form submitted successfully!");
+      return true;
+    }
+    
+    // Function to clear error messages
+    function clearErrors() {
+      var errorElements = document.getElementsByClassName("error");
+      for (var i = 0; i < errorElements.length; i++) {
+        errorElements[i].textContent = "";
+      }
+    }
+    
+    // Attach form submission event listener
+    document.getElementById("myForm").addEventListener("submit", validateForm);
+  </script>
+</body>
+</html>
